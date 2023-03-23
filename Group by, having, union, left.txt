@@ -1,0 +1,56 @@
+#Explique quando utilizar o GROUP BY, de um exemplo sql.
+
+O comando GROUP BY é usado para agrupar as linhas de uma tabela com base em uma ou mais colunas
+ considere a tabela "pedidos" com as colunas "id_pedido", "data", "cliente" e "valor_total". 
+ Se quisermos saber a receita total por cliente, podemos usar a seguinte consulta SQL:
+ 
+SELECT cliente, SUM(valor_total) as receita_total
+FROM pedidos
+GROUP BY cliente;
+
+
+#Explique quando utilizar o HAVING, de um exemplo sql.
+
+O HAVING é uma cláusula que é utilizada juntamente com o GROUP BY para filtrar os resultados das funções de  agregações 
+feitas nas colunas da consulta.
+suponha que queremos exibir apenas os clientes que tiveram um total de vendas acima de R$ 10.000,00. 
+Nesse caso, podemos utilizar a cláusula HAVING para filtrar os resultados, como mostrado abaixo:
+
+SELECT clientes.nome, COUNT(vendas.id) AS num_vendas, SUM(vendas.valor_total) AS total_vendas
+FROM clientes
+INNER JOIN vendas ON vendas.id_cliente = clientes.id
+GROUP BY clientes.id
+HAVING SUM(vendas.valor_total) > 10000
+
+
+#Explique quando utilizar o UNION, de um exemplo sql.
+
+Um exemplo de uso do UNION seria para combinar o resultado de duas consultas que selecionam dados de tabelas 
+diferentes, mas com a mesma estrutura de colunas. Por exemplo:
+
+SELECT nome, idade, cidade
+FROM clientes
+WHERE idade > 18
+
+UNION
+
+SELECT nome, idade, cidade
+FROM funcionarios
+WHERE idade > 18
+
+Nesse exemplo, estamos selecionando o nome, idade e cidade de clientes e funcionários que tenham idade maior que 18 anos e 
+unindo esses resultados em um único conjunto de resultados usando o operador UNION. 
+O resultado final terá todas as linhas que atendem aos critérios de ambas as consultas.
+
+
+#Explique quando utilizar o LEFT JOIN, de um exemplo sql.
+
+Gostariamos de saber todos os clientes que já fizeram pedidos, inclusive os que não fizeram.
+
+SELECT clientes.nome, pedidos.id, pedidos.data
+FROM clientes
+LEFT JOIN pedidos ON clientes.id = pedidos.id_cliente
+ORDER BY clientes.nome;
+
+Nesse caso trazemos todos os clientes da tabela e fazemos uma intersecção com os clientes que id_cliente na tabela pedidos.
+
